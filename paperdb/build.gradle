@@ -50,7 +50,7 @@ publish {
     repoName = 'reizxutils'
     userOrg = 'kigkrazy'//bintray.com用户名
     groupId = 'com.reizx'//jcenter上的路径
-    artifactId = 'okhttputils'//项目名称
+    artifactId = 'paperdb'//项目名称
     publishVersion = version //版本号
     desc = 'an okhttp3 wapper utils'
     website = 'https://github.com/kigkrazy/okhttputils'
