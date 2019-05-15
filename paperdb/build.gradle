@@ -53,6 +53,6 @@ publish {
     groupId = 'com.reizx'//jcenter上的路径
     artifactId = 'paperdb'//项目名称
     publishVersion = version //版本号
-    desc = 'an okhttp3 wapper utils'
-    website = 'https://github.com/kigkrazy/okhttputils'
+    desc = 'an paperdb utils'
+    website = 'https://github.com/kigkrazy/Paper'
 }
