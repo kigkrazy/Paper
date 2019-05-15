@@ -26,6 +26,7 @@ dependencies {
 
     api 'com.esotericsoftware:kryo:4.0.1'
     api 'de.javakaffee:kryo-serializers:0.40'
+    api 'cn.hutool:hutool-all:4.5.7'
 }
 
 tasks.withType(JavaCompile) {

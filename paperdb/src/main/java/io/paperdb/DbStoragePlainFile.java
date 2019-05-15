@@ -22,6 +22,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
+import cn.hutool.core.util.StrUtil;
 import de.javakaffee.kryoserializers.ArraysAsListSerializer;
 import de.javakaffee.kryoserializers.SynchronizedCollectionsSerializer;
 import de.javakaffee.kryoserializers.UUIDSerializer;
@@ -94,7 +95,11 @@ public class DbStoragePlainFile {
     DbStoragePlainFile(String dbFilesDir, String dbName,
                        HashMap<Class, Serializer> serializers) {
         mCustomSerializers = serializers;
-        mDbPath = dbFilesDir + File.separator + dbName;
+        if (StrUtil.isEmpty(dbFilesDir)){
+            mDbPath = dbName;
+        }else {
+            mDbPath = dbFilesDir + File.separator + dbName;
+        }
     }
 
     public synchronized void destroy() {
