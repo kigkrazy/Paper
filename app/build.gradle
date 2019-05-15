@@ -18,6 +18,13 @@ android {
             minifyEnabled false
         }
     }
+
+    /**
+     * 去掉语法检测
+     */
+    lintOptions {
+        abortOnError false
+    }
 }
 
 dependencies {
