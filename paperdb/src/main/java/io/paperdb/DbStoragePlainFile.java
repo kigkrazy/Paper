@@ -1,8 +1,5 @@
 package io.paperdb;
 
-import android.content.Context;
-import android.util.Log;
-
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.KryoException;
 import com.esotericsoftware.kryo.Serializer;
@@ -88,11 +85,11 @@ public class DbStoragePlainFile {
         return kryo;
     }
 
-    DbStoragePlainFile(Context context, String dbName,
-                       HashMap<Class, Serializer> serializers) {
-        mCustomSerializers = serializers;
-        mDbPath = context.getFilesDir() + File.separator + dbName;
-    }
+//    DbStoragePlainFile(Context context, String dbName,
+//                       HashMap<Class, Serializer> serializers) {
+//        mCustomSerializers = serializers;
+//        mDbPath = context.getFilesDir() + File.separator + dbName;
+//    }
 
     DbStoragePlainFile(String dbFilesDir, String dbName,
                        HashMap<Class, Serializer> serializers) {
@@ -104,7 +101,7 @@ public class DbStoragePlainFile {
         assertInit();
 
         if (!deleteDirectory(mDbPath)) {
-            Log.e(TAG, "Couldn't delete Paper dir " + mDbPath);
+//            Log.e(TAG, "Couldn't delete Paper dir " + mDbPath);
         }
         mPaperDirIsCreated = false;
     }

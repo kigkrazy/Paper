@@ -1,10 +1,5 @@
 package io.paperdb;
 
-import android.annotation.SuppressLint;
-import android.app.Application;
-import android.content.Context;
-import android.os.Bundle;
-
 import com.esotericsoftware.kryo.Serializer;
 
 import java.io.File;
@@ -30,22 +25,8 @@ public class Paper {
 
     static final String DEFAULT_DB_NAME = "io.paperdb";
 
-    // Keep _application_ context
-    @SuppressLint("StaticFieldLeak") private static Context mContext;
-
     private static final ConcurrentHashMap<String, Book> mBookMap = new ConcurrentHashMap<>();
     private static final HashMap<Class, Serializer> mCustomSerializers = new HashMap<>();
-
-    /**
-     * Lightweight method to init Paper instance. Should be executed in {@link Application#onCreate()}
-     * or {@link android.app.Activity#onCreate(Bundle)}.
-     * <p/>
-     *
-     * @param context context, used to get application context
-     */
-    public static void init(Context context) {
-        mContext = context.getApplicationContext();
-    }
 
     /**
      * Returns book instance with the given name
@@ -54,8 +35,8 @@ public class Paper {
      * @return Paper instance
      */
     public static Book book(String name) {
-        if (name.equals(DEFAULT_DB_NAME)) throw new PaperDbException(DEFAULT_DB_NAME +
-                " name is reserved for default library name");
+        if (name.equals(DEFAULT_DB_NAME))
+            throw new PaperDbException(DEFAULT_DB_NAME + " name is reserved for default library name");
         return getBook(null, name);
     }
 
@@ -91,18 +72,11 @@ public class Paper {
     }
 
     private static Book getBook(String location, String name) {
-        if (mContext == null) {
-            throw new PaperDbException("Paper.init is not called");
-        }
         String key = (location == null ? "" : location) + name;
         synchronized (mBookMap) {
             Book book = mBookMap.get(key);
             if (book == null) {
-                if (location == null) {
-                    book = new Book(mContext, name, mCustomSerializers);
-                } else {
-                    book = new Book(location, name, mCustomSerializers);
-                }
+                book = new Book(location, name, mCustomSerializers);
                 mBookMap.put(key, book);
             }
             return book;
@@ -114,50 +88,6 @@ public class Paper {
             customLocation = customLocation.substring(0, customLocation.length() - 1);
         }
         return customLocation;
-    }
-
-    /**
-     * @deprecated use Paper.book().write()
-     */
-    public static <T> Book put(String key, T value) {
-        return book().write(key, value);
-    }
-
-    /**
-     * @deprecated use Paper.book().read()
-     */
-    public static <T> T get(String key) {
-        return book().read(key);
-    }
-
-    /**
-     * @deprecated use Paper.book().read()
-     */
-    public static <T> T get(String key, T defaultValue) {
-        return book().read(key, defaultValue);
-    }
-
-    /**
-     * @deprecated use Paper.book().contains()
-     */
-    public static boolean exist(String key) {
-        return book().contains(key);
-    }
-
-    /**
-     * @deprecated use Paper.book().delete()
-     */
-    public static void delete(String key) {
-        book().delete(key);
-    }
-
-    /**
-     * @deprecated use Paper.book().destroy(). NOTE: Paper.init() be called
-     * before destroy()
-     */
-    public static void clear(Context context) {
-        init(context);
-        book().destroy();
     }
 
     /**
